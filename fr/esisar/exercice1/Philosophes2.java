@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Philosophes1 extends Thread {
+public class Philosophes2 extends Thread {
     enum Activity {
         EATING,
         DISCUSSING,
@@ -14,7 +14,7 @@ public class Philosophes1 extends Thread {
     private int number;
     private Activity activity;
 
-    public Philosophes1(int number) {
+    public Philosophes2(int number) {
         // We have to initialize the randomizer
         rand = new Random();
         this.number = number;
@@ -55,10 +55,10 @@ public class Philosophes1 extends Thread {
     }
 
     public static void main(String[] args) {
-        List<Philosophes1> philosophes = new ArrayList<>();
+        List<Philosophes2> philosophes = new ArrayList<>();
 
-        for (int i = 0; i < 5; i++) {
-            philosophes.add(new Philosophes1(i + 1));
+        for (int i = 0; i < 50; i++) {
+            philosophes.add(new Philosophes2(i + 1));
             philosophes.get(i).start();
         }
     }

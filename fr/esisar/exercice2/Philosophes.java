@@ -1,10 +1,10 @@
-package fr.esisar.exercice1;
+package fr.esisar.exercice2;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Philosophes1 extends Thread {
+public class Philosophes extends Thread {
     enum Activity {
         EATING,
         DISCUSSING,
@@ -14,38 +14,43 @@ public class Philosophes1 extends Thread {
     private int number;
     private Activity activity;
 
-    public Philosophes1(int number) {
+    private static Arbitre arbitre = new Arbitre(5);
+
+    public Philosophes(int number) {
         // We have to initialize the randomizer
         rand = new Random();
         this.number = number;
     }
 
     public void run() {
-        // We decide whether we begin we eating or discussing
-        switch (rand.nextInt(1, 2)) {
-            case 1:
-                beginActivity("manger");
-                activity = Activity.EATING;
-                break;
-            case 2:
-                beginActivity("discuter");
-                activity = Activity.DISCUSSING;
+        beginActivity("discuter");
+        try {
+            sleep(rand.nextInt(10) * 1000);
+        } catch (Exception e) {
+            System.out.println("Well that sucks: " + e);
         }
 
         while (true) {
-            int temp = rand.nextInt(10);
-            try {
-                sleep(temp * 1000);
-            } catch(InterruptedException e) {
-                System.out.println("Well that sucks: " + e);
-            }
-
             if (activity == Activity.EATING) {
+                arbitre.liberation(number);
                 beginActivity("discuter");
                 activity = Activity.DISCUSSING;
             } else {
+                while (!arbitre.autorisation(number)) {
+                    try {
+                        sleep(1000);
+                    } catch (Exception e) {
+                        System.out.println("Well that sucks: " + e);
+                    }
+                }
                 beginActivity("manger");
                 activity = Activity.EATING;
+            }
+
+            try {
+                sleep(rand.nextInt(10) * 1000);
+            } catch(Exception e) {
+                System.out.println("Well that sucks: " + e);
             }
         }
     }
@@ -55,10 +60,10 @@ public class Philosophes1 extends Thread {
     }
 
     public static void main(String[] args) {
-        List<Philosophes1> philosophes = new ArrayList<>();
+        List<Philosophes> philosophes = new ArrayList<>();
 
         for (int i = 0; i < 5; i++) {
-            philosophes.add(new Philosophes1(i + 1));
+            philosophes.add(new Philosophes(i + 1));
             philosophes.get(i).start();
         }
     }
