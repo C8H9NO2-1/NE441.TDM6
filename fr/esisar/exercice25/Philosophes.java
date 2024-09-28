@@ -1,10 +1,10 @@
-//package fr.esisar.exercice25;
+package fr.esisar.exercice25;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import Arbitre;
+import tdm.tdm07.exo3.checker.CodeChecker;
 
 public class Philosophes extends Thread {
     enum Activity {
