@@ -63,7 +63,7 @@ public class Serveur extends Thread {
         // On initialise le bon nombre de threads
         List<Serveur> threads = new ArrayList<>();
 
-        for (int i = 21000; i <= 25000; i++) {
+        for (int i = 21000; i <= 23000; i++) {
             threads.add(new Serveur(i));
             threads.get(i - 21000).start();
         }
